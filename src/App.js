@@ -31,7 +31,7 @@ function App() {
   }
   return (
     <div>
-      <h1>Todo List React</h1>
+      <h1>Aufgaben</h1>
       <AddTodoForm onNewTodo={newTodo => {
         setTodos(prev => prev.concat(newTodo))
       }} />
