@@ -1,21 +1,42 @@
 import React from 'react';
 import './App.css';
 
+/**
+ * 2. Show whether a todo is completed with ( ) if not completed, (x) if completed
+ */
+
 function App() {
-  const [todos, setTodos] = React.useState([
+  const [todos, setTodos] = React.useState([])
+  function toggleAll() {
+    const totalTodos = todos.length;
+    let totalCompleted = 0;
+    const todoArray = [...todos]
 
-  ])
+    todoArray.forEach(function checkCompletion(todo) {
+      if (todo.completed === true) {
+        totalCompleted++;
+      }
+    });
 
-  const handleNewTodo = newTodo => {
-    setTodos(prev => prev.concat(newTodo))
+    if (totalTodos === totalCompleted) {
+      todoArray.forEach(element => (element.completed = false));
+    } else {
+      todoArray.forEach(element => (element.completed = true));
+    }
+
+    setTodos(todoArray);
   }
 
   return (
     <div>
       <h1>Todo List React</h1>
-      <button>Toggle All</button>
 
-      <AddTodoForm onNewTodo={handleNewTodo} />
+      <AddTodoForm onNewTodo={newTodo => {
+        setTodos(prev => prev.concat(newTodo))
+      }} />
+
+      <ToggleAllButton onToggleAll={toggleAll} />
+
 
       <div>
         <button >Change Todo</button>
@@ -27,18 +48,30 @@ function App() {
         <button >Toggle This Todo</button>
         <input id="whichTodo" type="number" />
       </div>
-      <ul>
-        {
-          todos.map(el => {
-            return (
-              <li>{el.todoText}</li>
-            )
-          })
-        }
-      </ul>
+      <TodoList todos={todos}/>
     </div>
 
   );
+}
+
+const TodoList = (props) => {
+  return (
+    <ul>
+      {
+        props.todos.map(todo => {
+          var completion;
+          if (todo.completed) {
+            completion = '(x)'
+          } else {
+            completion = '( )'
+          }
+          return (
+            <li>{completion} {todo.todoText}</li>
+          )
+        })
+      }
+    </ul>
+  )
 }
 
 const AddTodoForm = (props) => {
@@ -48,7 +81,7 @@ const AddTodoForm = (props) => {
 
     props.onNewTodo({
       completed: false,
-      todoText: newTodoText
+      todoText: newTodoText,
     })
     /**
      * clear the input  value after you click the add todo button.
@@ -56,14 +89,22 @@ const AddTodoForm = (props) => {
     setNewTodoText('');
   }
   return (
-    <div>
-      <button onClick={() => {
-        addNewTodo()
+    <form onSubmit={e => e.preventDefault()}>
+      <button type='submit' onClick={() => {
+        if (newTodoText !== '') {
+          addNewTodo()
+        }
       }}>Add Todo</button>
       <input type="text" value={newTodoText} onChange={(e) => {
         setNewTodoText(e.target.value);
       }} />
-    </div>
+    </form>
+  )
+}
+
+const ToggleAllButton = (props) => {
+  return (
+    <button onClick={props.onToggleAll}>Toggle All</button>
   )
 }
 
