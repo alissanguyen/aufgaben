@@ -1,12 +1,9 @@
 import React from 'react';
 import './App.css';
 
-/**
- * 2. Show whether a todo is completed with ( ) if not completed, (x) if completed
- */
-
 function App() {
   const [todos, setTodos] = React.useState([])
+
   function toggleAll() {
     const totalTodos = todos.length;
     let totalCompleted = 0;
@@ -27,28 +24,25 @@ function App() {
     setTodos(todoArray);
   }
 
+  function toggleOne(index) {
+    const todoArray = [...todos]
+    todoArray[index].completed = !todoArray[index].completed
+    setTodos(todoArray)
+  }
   return (
     <div>
       <h1>Todo List React</h1>
-
       <AddTodoForm onNewTodo={newTodo => {
         setTodos(prev => prev.concat(newTodo))
       }} />
-
       <ToggleAllButton onToggleAll={toggleAll} />
-
 
       <div>
         <button >Change Todo</button>
         <input id="locationOfTodo" type="number" />
         <input id="newTodoName" type="text" />
       </div>
-
-      <div>
-        <button >Toggle This Todo</button>
-        <input id="whichTodo" type="number" />
-      </div>
-      <TodoList todos={todos}/>
+      <TodoList todos={todos} onToggleSingleTodoItem={(index) => toggleOne(index)} />
     </div>
 
   );
@@ -57,20 +51,22 @@ function App() {
 const TodoList = (props) => {
   return (
     <ul>
-      {
-        props.todos.map(todo => {
-          var completion;
-          if (todo.completed) {
-            completion = '(x)'
-          } else {
-            completion = '( )'
-          }
-          return (
-            <li>{completion} {todo.todoText}</li>
-          )
-        })
+      {props.todos.map((todo, index) => {
+        return <TodoItem todo={todo} onToggle={() => {
+          props.onToggleSingleTodoItem(index)
+        }} />
+      })
       }
     </ul>
+  )
+}
+
+const TodoItem = (props) => {
+  return (
+    <li>
+      <p style={{ display: 'inline', marginRight: 20 }}>{props.todo.completed ? "(x)" : "( )"} {props.todo.todoText}</p>
+      <button onClick={props.onToggle}>Toggle</button>
+    </li>
   )
 }
 
