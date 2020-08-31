@@ -8,7 +8,7 @@ const BUTTON_CLASSNAME = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-
 // 2. When clicking on the Edit button, the button change to "Save"
 
 function App() {
-  const [todos, setTodos] = React.useState([])
+  const [todos, setTodos] = useLocalStorageState('todos', [])
 
   function toggleAll() {
     const totalTodos = todos.length;
@@ -136,6 +136,7 @@ const AddTodoForm = (props) => {
     props.onNewTodo({
       completed: false,
       todoText: newTodoText,
+
     })
     /**
      * clear the input  value after you click the add todo button.
@@ -161,6 +162,19 @@ const ToggleAllButton = (props) => {
   )
 }
 
+const useLocalStorageState = (key, initialValue) => {
+
+  const existentValueInLocalStorage = window.localStorage.getItem(key) && JSON.parse(window.localStorage.getItem(key))
+
+  const [state, setState] = React.useState(existentValueInLocalStorage === undefined || existentValueInLocalStorage === null ? initialValue : existentValueInLocalStorage)
+
+
+  React.useEffect(() => {
+    window.localStorage.setItem(key, JSON.stringify(state))
+
+  }, [key, state])
+
+  return [state, setState]
+}
+
 export default App;
-
-
