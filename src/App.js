@@ -1,6 +1,9 @@
 import React from 'react';
 import './App.css';
 
+// 1. Add an Edit button right next to the Toggle button.
+// 2. When clicking on the Edit button, the button change to "Save"
+
 function App() {
   const [todos, setTodos] = React.useState([])
 
@@ -29,6 +32,13 @@ function App() {
     todoArray[index].completed = !todoArray[index].completed
     setTodos(todoArray)
   }
+
+  function editOne(index, newTodoText) {
+    const todoArray = [...todos]
+    todoArray[index].todoText = newTodoText;
+    setTodos(todoArray)
+  }
+
   return (
     <div>
       <h1>Aufgaben</h1>
@@ -36,13 +46,9 @@ function App() {
         setTodos(prev => prev.concat(newTodo))
       }} />
       <ToggleAllButton onToggleAll={toggleAll} />
-
-      <div>
-        <button >Change Todo</button>
-        <input id="locationOfTodo" type="number" />
-        <input id="newTodoName" type="text" />
-      </div>
-      <TodoList todos={todos} onToggleSingleTodoItem={(index) => toggleOne(index)} />
+      <TodoList todos={todos}
+        onToggleSingleTodoItem={(index) => toggleOne(index)}
+        onEditSingleTodoItem={(index, newTodoText) => editOne(index, newTodoText)} />
     </div>
 
   );
@@ -52,9 +58,14 @@ const TodoList = (props) => {
   return (
     <ul>
       {props.todos.map((todo, index) => {
-        return <TodoItem todo={todo} onToggle={() => {
-          props.onToggleSingleTodoItem(index)
-        }} />
+        return <TodoItem todo={todo}
+          key={index}
+          onToggle={() => {
+            props.onToggleSingleTodoItem(index)
+          }}
+          onEdit={(newTodoText) => {
+            props.onEditSingleTodoItem(index, newTodoText)
+          }} />
       })
       }
     </ul>
@@ -62,10 +73,31 @@ const TodoList = (props) => {
 }
 
 const TodoItem = (props) => {
+
+  const [isEditing, setIsEditing] = React.useState(false);
+
+  const [newTodoText, setNewTodoText] = React.useState(props.todo.todoText)
+
   return (
     <li>
-      <p style={{ display: 'inline', marginRight: 20 }}>{props.todo.completed ? "(x)" : "( )"} {props.todo.todoText}</p>
-      <button onClick={props.onToggle}>Toggle</button>
+      {
+        isEditing ? (
+          <React.Fragment>
+            <input value={newTodoText} onChange={event => {
+              setNewTodoText(event.target.value)
+            }} />
+            <button onClick={() => { props.onEdit(newTodoText); setIsEditing(false) }}>Save</button>
+          </React.Fragment>
+        ) : (
+            <React.Fragment>
+              <p style={{ display: 'inline', marginRight: 20 }}>{props.todo.completed ? "(x)" : "( )"} {props.todo.todoText}</p>
+              <button onClick={props.onToggle}>Toggle</button>
+              <button onClick={() => {
+                setIsEditing(true)
+              }}>Edit</button>
+            </React.Fragment>
+          )
+      }
     </li>
   )
 }
