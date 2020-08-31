@@ -2,7 +2,7 @@ import React from 'react';
 import './tailwind.output.css';
 
 const INPUT_CLASSNAME = "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
-const BUTTON_CLASSNAME = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'
+const BUTTON_CLASSNAME = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
 
 // 1. Add an Edit button right next to the Toggle button.
 // 2. When clicking on the Edit button, the button change to "Save"
@@ -46,14 +46,17 @@ function App() {
     <div style={{ margin: 'auto' }} className="container flex-col max-w-screen-sm content-center">
       <h1 className={"font-sans text-6xl text-center"}>Aufgaben</h1>
 
-      <AddTodoForm onNewTodo={newTodo => {
-        setTodos(prev => prev.concat(newTodo))
-      }} />
-      {
-        todos.length > 0 ? (
-          <ToggleAllButton onToggleAll={toggleAll} />
-        ) : null
-      }
+      <div className="flex mb-3">
+        <AddTodoForm onNewTodo={newTodo => {
+          setTodos(prev => prev.concat(newTodo))
+        }} />
+        {
+          todos.length > 0 ? (
+            <ToggleAllButton onToggleAll={toggleAll} />
+          ) : null
+        }
+      </div>
+
       <TodoList todos={todos}
         onToggleSingleTodoItem={(index) => toggleOne(index)}
         onEditSingleTodoItem={(index, newTodoText) => editOne(index, newTodoText)} />
@@ -87,7 +90,10 @@ const TodoItem = (props) => {
   const [newTodoText, setNewTodoText] = React.useState(props.todo.todoText)
 
   return (
-    <li>
+    <li className="grid mt-3" style={{
+      gridTemplateColumns: '1fr 200px',
+      alignItems: 'center'
+    }} >
       {
         isEditing ? (
           <React.Fragment>
@@ -98,15 +104,27 @@ const TodoItem = (props) => {
           </React.Fragment>
         ) : (
             <React.Fragment>
-              <p style={{ display: 'inline', marginRight: 20 }}>{props.todo.completed ? "(x)" : "( )"} {props.todo.todoText}</p>
-              <button className={BUTTON_CLASSNAME} onClick={props.onToggle}>Toggle</button>
-              <button className={BUTTON_CLASSNAME} onClick={() => {
-                setIsEditing(true)
-              }}>Edit</button>
+              <div>
+                <button className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center mr-3`} onClick={props.onToggle}>
+                  {
+                    props.todo.completed ? <span role="img" aria-label="Completed">✅</span> : <span role="img" aria-label="Not completed">🙅‍♀️</span>
+                  }
+                </button>
+                <p style={{ display: 'inline', marginRight: 20, wordBreak: 'break-all', fontSize: '1.4rem' }}>{props.todo.todoText}</p>
+              </div>
+              <div className="flex" style={{
+                justifyContent: 'flex-end'
+              }}>
+                <div>
+                  <button className={BUTTON_CLASSNAME} onClick={() => {
+                    setIsEditing(true)
+                  }}><span role="img" aria-label="Edit">🖊️</span></button>
+                </div>
+              </div>
             </React.Fragment>
           )
       }
-    </li>
+    </li >
   )
 }
 
@@ -125,7 +143,7 @@ const AddTodoForm = (props) => {
     setNewTodoText('');
   }
   return (
-    <form onSubmit={e => {
+    <form style={{ flex: '1' }} onSubmit={e => {
       e.preventDefault(); if (newTodoText !== '') {
         addNewTodo()
       }
@@ -139,7 +157,7 @@ const AddTodoForm = (props) => {
 
 const ToggleAllButton = (props) => {
   return (
-    <button className={BUTTON_CLASSNAME} onClick={props.onToggleAll}>Toggle All</button>
+    <button className={BUTTON_CLASSNAME + " ml-3"} onClick={props.onToggleAll}>Toggle All</button>
   )
 }
 
