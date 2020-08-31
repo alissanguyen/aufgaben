@@ -1,5 +1,8 @@
 import React from 'react';
-import './App.css';
+import './tailwind.output.css';
+
+const INPUT_CLASSNAME = "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+const BUTTON_CLASSNAME = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full'
 
 // 1. Add an Edit button right next to the Toggle button.
 // 2. When clicking on the Edit button, the button change to "Save"
@@ -40,12 +43,17 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>Aufgaben</h1>
+    <div style={{ margin: 'auto' }} className="container flex-col max-w-screen-sm content-center">
+      <h1 className={"font-sans text-6xl text-center"}>Aufgaben</h1>
+
       <AddTodoForm onNewTodo={newTodo => {
         setTodos(prev => prev.concat(newTodo))
       }} />
-      <ToggleAllButton onToggleAll={toggleAll} />
+      {
+        todos.length > 0 ? (
+          <ToggleAllButton onToggleAll={toggleAll} />
+        ) : null
+      }
       <TodoList todos={todos}
         onToggleSingleTodoItem={(index) => toggleOne(index)}
         onEditSingleTodoItem={(index, newTodoText) => editOne(index, newTodoText)} />
@@ -83,16 +91,16 @@ const TodoItem = (props) => {
       {
         isEditing ? (
           <React.Fragment>
-            <input value={newTodoText} onChange={event => {
+            <input className={INPUT_CLASSNAME} value={newTodoText} onChange={event => {
               setNewTodoText(event.target.value)
             }} />
-            <button onClick={() => { props.onEdit(newTodoText); setIsEditing(false) }}>Save</button>
+            <button className={BUTTON_CLASSNAME} onClick={() => { props.onEdit(newTodoText); setIsEditing(false) }}>Save</button>
           </React.Fragment>
         ) : (
             <React.Fragment>
               <p style={{ display: 'inline', marginRight: 20 }}>{props.todo.completed ? "(x)" : "( )"} {props.todo.todoText}</p>
-              <button onClick={props.onToggle}>Toggle</button>
-              <button onClick={() => {
+              <button className={BUTTON_CLASSNAME} onClick={props.onToggle}>Toggle</button>
+              <button className={BUTTON_CLASSNAME} onClick={() => {
                 setIsEditing(true)
               }}>Edit</button>
             </React.Fragment>
@@ -117,13 +125,12 @@ const AddTodoForm = (props) => {
     setNewTodoText('');
   }
   return (
-    <form onSubmit={e => e.preventDefault()}>
-      <button type='submit' onClick={() => {
-        if (newTodoText !== '') {
-          addNewTodo()
-        }
-      }}>Add Todo</button>
-      <input type="text" value={newTodoText} onChange={(e) => {
+    <form onSubmit={e => {
+      e.preventDefault(); if (newTodoText !== '') {
+        addNewTodo()
+      }
+    }}>
+      <input placeholder="Enter a new todo" className={INPUT_CLASSNAME} type="text" value={newTodoText} onChange={(e) => {
         setNewTodoText(e.target.value);
       }} />
     </form>
@@ -132,7 +139,7 @@ const AddTodoForm = (props) => {
 
 const ToggleAllButton = (props) => {
   return (
-    <button onClick={props.onToggleAll}>Toggle All</button>
+    <button className={BUTTON_CLASSNAME} onClick={props.onToggleAll}>Toggle All</button>
   )
 }
 
