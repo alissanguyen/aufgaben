@@ -68,16 +68,12 @@ function App() {
 const TodoList = (props) => {
   return (
     <ul>
-      {props.todos.map((todo, index) => {
-        return <TodoItem todo={todo}
-          key={index}
-          onToggle={() => {
-            props.onToggleSingleTodoItem(index)
-          }}
-          onEdit={(newTodoText) => {
-            props.onEditSingleTodoItem(index, newTodoText)
-          }} />
-      })
+      {
+        props.todos.map((todo, index) => {
+          return <TodoItem todo={todo} key={index}
+            onToggle={() => { props.onToggleSingleTodoItem(index) }}
+            onEdit={(newTodoText) => { props.onEditSingleTodoItem(index, newTodoText) }} />
+        })
       }
     </ul>
   )
@@ -87,8 +83,6 @@ const TodoItem = (props) => {
 
   const [isEditing, setIsEditing] = React.useState(false);
 
-  const [newTodoText, setNewTodoText] = React.useState(props.todo.todoText)
-
   return (
     <li className="grid mt-3" style={{
       gridTemplateColumns: '1fr 200px',
@@ -96,12 +90,10 @@ const TodoItem = (props) => {
     }} >
       {
         isEditing ? (
-          <React.Fragment>
-            <input className={INPUT_CLASSNAME} value={newTodoText} onChange={event => {
-              setNewTodoText(event.target.value)
-            }} />
-            <button className={BUTTON_CLASSNAME} onClick={() => { props.onEdit(newTodoText); setIsEditing(false) }}>Save</button>
-          </React.Fragment>
+          <EditAndSaveForm todo={props.todo} onEdit={(newTodoText) => {
+            props.onEdit(newTodoText);
+            setIsEditing(false)
+          }} />
         ) : (
             <React.Fragment>
               <div>
@@ -116,9 +108,9 @@ const TodoItem = (props) => {
                 justifyContent: 'flex-end'
               }}>
                 <div>
-                  <button className={BUTTON_CLASSNAME} onClick={() => {
-                    setIsEditing(true)
-                  }}><span role="img" aria-label="Edit">🖊️</span></button>
+                  <button className={BUTTON_CLASSNAME} onClick={() => { setIsEditing(true) }}>
+                    <span role="img" aria-label="Edit">🖊️</span>
+                  </button>
                 </div>
               </div>
             </React.Fragment>
@@ -156,9 +148,23 @@ const AddTodoForm = (props) => {
   )
 }
 
+const EditAndSaveForm = (props) => {
+  const [newTodoText, setNewTodoText] = React.useState(props.todo.todoText)
+
+  return (
+    <React.Fragment>
+      <input className={INPUT_CLASSNAME} value={newTodoText} onChange={event => {
+        setNewTodoText(event.target.value)
+      }} />
+      <button className={BUTTON_CLASSNAME} onClick={() => { props.onEdit(newTodoText); }}>Save</button>
+    </React.Fragment>
+  )
+}
+
 const ToggleAllButton = (props) => {
   return (
-    <button className={BUTTON_CLASSNAME + " ml-3"} onClick={props.onToggleAll}>Toggle All</button>
+    <button className={BUTTON_CLASSNAME + " ml-3"}
+      onClick={props.onToggleAll}>Toggle All</button>
   )
 }
 
