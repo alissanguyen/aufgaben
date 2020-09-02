@@ -1,8 +1,9 @@
 import React from 'react';
 import './tailwind.output.css';
-
-const INPUT_CLASSNAME = "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
-const BUTTON_CLASSNAME = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+import AddTodoForm from './components/AddTodoForm';
+import ToggleAllButton from './components/ToggleAllButton';
+import TodoList from './components/TodoList';
+import useLocalStorageState from './components/useLocalStorageState';
 
 
 function App() {
@@ -68,140 +69,6 @@ function App() {
     </div>
 
   );
-}
-
-const TodoList = (props) => {
-  return (
-    <ul>
-      {
-        props.todos.map((todo, index) => {
-          return <TodoItem todo={todo} key={index}
-            onToggle={() => { props.onToggleSingleTodoItem(index) }}
-            onEdit={(newTodoText) => { props.onEditSingleTodoItem(index, newTodoText) }}
-            onDelete={() => { props.onDeleteSingleTodoItem(index) }} />
-        })
-      }
-    </ul>
-  )
-}
-
-const TodoItem = (props) => {
-
-  const [isEditing, setIsEditing] = React.useState(false);
-
-  return (
-    <li className="grid mt-3" style={{
-      gridTemplateColumns: '1fr auto',
-      alignItems: 'center'
-    }} >
-      {
-        isEditing ? (
-          <EditSaveAndDeleteForm todo={props.todo} onEdit={(newTodoText) => {
-            if (newTodoText.trim().length === 0) {
-              props.onDelete()
-            } else {
-              props.onEdit(newTodoText);
-              setIsEditing(false) //exit editing state, users no longer editing the todo
-            }
-          }} />
-        ) : (
-            <React.Fragment>
-              <div>
-                <button className={`bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center mr-3`} onClick={props.onToggle}>
-                  {
-                    props.todo.completed ? <span role="img" aria-label="Completed">✅</span> : <span role="img" aria-label="Not completed">🙅‍♀️</span>
-                  }
-                </button>
-                <p style={{ display: 'inline', marginRight: 20, wordBreak: 'break-all', fontSize: '1.4rem' }}>{props.todo.todoText}</p>
-              </div>
-              <div className="flex" style={{
-                justifyContent: 'flex-end'
-              }}>
-                <div>
-                  <button className={BUTTON_CLASSNAME + " mr-2"} onClick={() => { setIsEditing(true) }}>
-                    <span role="img" aria-label="Edit">🖊️</span>
-                  </button>
-                </div>
-                <button className={BUTTON_CLASSNAME} onClick={() => { props.onDelete() }}>
-                  <span role="img" aria-label="Delete">❌</span>
-                </button>
-              </div>
-            </React.Fragment>
-          )
-      }
-    </li >
-  )
-}
-
-const AddTodoForm = (props) => {
-  const [newTodoText, setNewTodoText] = React.useState("")
-
-  const addNewTodo = () => {
-
-    props.onNewTodo({
-      completed: false,
-      todoText: newTodoText,
-
-    })
-    /**
-     * clear the input  value after you click the add todo button.
-     */
-    setNewTodoText('');
-  }
-  return (
-    <form style={{ flex: '1' }} onSubmit={e => {
-      e.preventDefault(); if (newTodoText !== '') {
-        addNewTodo()
-      }
-    }}>
-      <input placeholder="Enter a new todo" className={INPUT_CLASSNAME} type="text" value={newTodoText} onChange={(e) => {
-        setNewTodoText(e.target.value);
-      }} />
-    </form>
-  )
-}
-
-const EditSaveAndDeleteForm = (props) => {
-  const [newTodoText, setNewTodoText] = React.useState(props.todo.todoText)
-
-  return (
-    <React.Fragment>
-      <form className="flex" style={{
-        width: '100%'
-      }} onSubmit={(e) => {
-        e.preventDefault();
-        props.onEdit(newTodoText)
-      }}>
-        <input className={INPUT_CLASSNAME + " mr-3"} value={newTodoText} onChange={event => {
-          setNewTodoText(event.target.value)
-        }} />
-        <button type="submit" className={BUTTON_CLASSNAME} >Save</button>
-      </form>
-    </React.Fragment>
-  )
-}
-
-
-const ToggleAllButton = (props) => {
-  return (
-    <button className={BUTTON_CLASSNAME + " ml-3"}
-      onClick={props.onToggleAll}>Toggle All</button>
-  )
-}
-
-const useLocalStorageState = (key, initialValue) => {
-
-  const existentValueInLocalStorage = window.localStorage.getItem(key) && JSON.parse(window.localStorage.getItem(key))
-
-  const [state, setState] = React.useState(existentValueInLocalStorage === undefined || existentValueInLocalStorage === null ? initialValue : existentValueInLocalStorage)
-
-
-  React.useEffect(() => {
-    window.localStorage.setItem(key, JSON.stringify(state))
-
-  }, [key, state])
-
-  return [state, setState]
 }
 
 export default App;
