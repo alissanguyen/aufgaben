@@ -91,14 +91,18 @@ const TodoItem = (props) => {
 
   return (
     <li className="grid mt-3" style={{
-      gridTemplateColumns: '1fr 200px',
+      gridTemplateColumns: '1fr auto',
       alignItems: 'center'
     }} >
       {
         isEditing ? (
           <EditSaveAndDeleteForm todo={props.todo} onEdit={(newTodoText) => {
-            props.onEdit(newTodoText);
-            setIsEditing(false)
+            if (newTodoText.trim().length === 0) {
+              props.onDelete()
+            } else {
+              props.onEdit(newTodoText);
+              setIsEditing(false) //exit editing state, users no longer editing the todo
+            }
           }} />
         ) : (
             <React.Fragment>
@@ -162,10 +166,17 @@ const EditSaveAndDeleteForm = (props) => {
 
   return (
     <React.Fragment>
-      <input className={INPUT_CLASSNAME} value={newTodoText} onChange={event => {
-        setNewTodoText(event.target.value)
-      }} />
-      <button className={BUTTON_CLASSNAME} onClick={() => { props.onEdit(newTodoText); }}>Save</button>
+      <form className="flex" style={{
+        width: '100%'
+      }} onSubmit={(e) => {
+        e.preventDefault();
+        props.onEdit(newTodoText)
+      }}>
+        <input className={INPUT_CLASSNAME + " mr-3"} value={newTodoText} onChange={event => {
+          setNewTodoText(event.target.value)
+        }} />
+        <button type="submit" className={BUTTON_CLASSNAME} >Save</button>
+      </form>
     </React.Fragment>
   )
 }
