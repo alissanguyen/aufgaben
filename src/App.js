@@ -4,8 +4,6 @@ import './tailwind.output.css';
 const INPUT_CLASSNAME = "bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
 const BUTTON_CLASSNAME = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
 
-// 1. Add an Edit button right next to the Toggle button.
-// 2. When clicking on the Edit button, the button change to "Save"
 
 function App() {
   const [todos, setTodos] = useLocalStorageState('todos', [])
@@ -42,6 +40,12 @@ function App() {
     setTodos(todoArray)
   }
 
+  function deleteOne(index) {
+    const todoArray = [...todos]
+    todoArray.splice(index, 1)
+    setTodos(todoArray)
+  }
+
   return (
     <div style={{ margin: 'auto' }} className="container flex-col max-w-screen-sm content-center">
       <h1 className={"font-sans text-6xl text-center"}>Aufgaben</h1>
@@ -59,7 +63,8 @@ function App() {
 
       <TodoList todos={todos}
         onToggleSingleTodoItem={(index) => toggleOne(index)}
-        onEditSingleTodoItem={(index, newTodoText) => editOne(index, newTodoText)} />
+        onEditSingleTodoItem={(index, newTodoText) => editOne(index, newTodoText)}
+        onDeleteSingleTodoItem={(index) => deleteOne(index)} />
     </div>
 
   );
@@ -72,7 +77,8 @@ const TodoList = (props) => {
         props.todos.map((todo, index) => {
           return <TodoItem todo={todo} key={index}
             onToggle={() => { props.onToggleSingleTodoItem(index) }}
-            onEdit={(newTodoText) => { props.onEditSingleTodoItem(index, newTodoText) }} />
+            onEdit={(newTodoText) => { props.onEditSingleTodoItem(index, newTodoText) }}
+            onDelete={() => { props.onDeleteSingleTodoItem(index) }} />
         })
       }
     </ul>
@@ -90,7 +96,7 @@ const TodoItem = (props) => {
     }} >
       {
         isEditing ? (
-          <EditAndSaveForm todo={props.todo} onEdit={(newTodoText) => {
+          <EditSaveAndDeleteForm todo={props.todo} onEdit={(newTodoText) => {
             props.onEdit(newTodoText);
             setIsEditing(false)
           }} />
@@ -108,10 +114,13 @@ const TodoItem = (props) => {
                 justifyContent: 'flex-end'
               }}>
                 <div>
-                  <button className={BUTTON_CLASSNAME} onClick={() => { setIsEditing(true) }}>
+                  <button className={BUTTON_CLASSNAME + " mr-2"} onClick={() => { setIsEditing(true) }}>
                     <span role="img" aria-label="Edit">🖊️</span>
                   </button>
                 </div>
+                <button className={BUTTON_CLASSNAME} onClick={() => { props.onDelete() }}>
+                  <span role="img" aria-label="Delete">❌</span>
+                </button>
               </div>
             </React.Fragment>
           )
@@ -148,7 +157,7 @@ const AddTodoForm = (props) => {
   )
 }
 
-const EditAndSaveForm = (props) => {
+const EditSaveAndDeleteForm = (props) => {
   const [newTodoText, setNewTodoText] = React.useState(props.todo.todoText)
 
   return (
@@ -160,6 +169,7 @@ const EditAndSaveForm = (props) => {
     </React.Fragment>
   )
 }
+
 
 const ToggleAllButton = (props) => {
   return (
