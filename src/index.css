@@ -1,0 +1,22 @@
+.aufgaben-button {
+    background-color: #8675a9;
+    font-family: 'Indie Flower', cursive;
+    letter-spacing: 2px;
+}
+
+.aufgaben-button:hover {
+    background-color: #a87496
+}
+
+.toggle-completed-button {
+    margin-right: 0.75rem;
+}
+
+.aufgaben-hero-text {
+    font-family: 'Fredericka the Great', cursive;
+    color: #6b5e87
+}
+
+.aufgaben-input::placeholder {
+    font-family: 'Indie Flower', cursive;
+}
