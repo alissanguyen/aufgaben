@@ -51,7 +51,7 @@ function App() {
     <div style={{ margin: 'auto' }} className="container flex-col max-w-screen-sm content-center">
       <h1 className={"font-sans text-6xl text-center"}>Aufgaben</h1>
 
-      <div className="flex mb-3">
+      <div style={{ padding:'10px' }} className="flex mb-3">
         <AddTodoForm onNewTodo={newTodo => {
           setTodos(prev => prev.concat(newTodo))
         }} />
