@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { BUTTON_CLASSNAME } from '../constants';
-import EditSaveAndDeleteForm from './EditSaveAndDeleteForm';
 import './TodoItem.css'
+import EditSaveAndDeleteForm from './EditSaveAndDeleteForm';
+import { BUTTON_CLASSNAME } from '../constants';
 
 const TodoItem = (props) => {
 
-
+  const [isHovering, setIsHovering] = React.useState(false);
 
   const [isEditing, setIsEditing] = React.useState(false);
 
@@ -36,21 +36,30 @@ const TodoItem = (props) => {
                 </button>
                 <p className="todo-font text-3xl text-gray-800" style={{ display: 'inline', marginRight: 20, wordBreak: 'break-word' }}>{props.todo.todoText}</p>
               </div>
+
               <div className="flex" style={{
                 justifyContent: 'flex-end',
-              }}>
-                <button className={BUTTON_CLASSNAME + " mr-2"} onClick={() => { setIsEditing(true) }}>
-                  <span role="img" aria-label="Edit">🖊️</span>
-                </button>
-                <button className={BUTTON_CLASSNAME} onClick={() => { props.onDelete() }}>
-                  <span role="img" aria-label="Delete">❌</span>
-                </button>
+              }}
+                onMouseLeave={() => setIsHovering(false)}>
+                {isHovering ? (
+                  <React.Fragment>
+                    <button className={BUTTON_CLASSNAME + " mr-2"} onClick={() => { setIsEditing(true) }}>
+                      <span role="img" aria-label="Edit">🖊️</span>
+                    </button>
+                    <button className={BUTTON_CLASSNAME} onClick={() => { props.onDelete() }}>
+                      <span role="img" aria-label="Delete">❌</span>
+                    </button>
+                  </React.Fragment>
+                ) : (
+                    <button className={BUTTON_CLASSNAME + " ml-3"} onMouseEnter={() => setIsHovering(true)}>...</button>
+                  )}
               </div>
             </React.Fragment>
           )
       }
-    </li >
+    </li>
   )
+
 }
 
 
