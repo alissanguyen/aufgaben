@@ -7,7 +7,11 @@ import useLocalStorageState from './components/useLocalStorageState';
 
 
 function App() {
-  const [todos, setTodos] = useLocalStorageState('todos', [])
+  const [todos, setTodos] = useLocalStorageState('todos', [], (todos) => {
+    return todos.filter((todo) => {
+      return typeof todo.id === 'string'
+    })
+  })
 
   function toggleAll() {
     const totalTodos = todos.length;
@@ -29,28 +33,43 @@ function App() {
     setTodos(todoArray);
   }
 
-  function toggleOne(index) {
+  function toggleOne(id) {
     const todoArray = [...todos]
-    todoArray[index].completed = !todoArray[index].completed
-    setTodos(todoArray)
+
+    const todoToChange = todoArray.find(todo => todo.id === id)
+
+    if (todoToChange) {
+      todoToChange.completed = !todoToChange.completed
+      setTodos(todoArray)
+    }
+
   }
 
-  function editOne(index, newTodoText) {
+  function editOne(id, newTodoText) {
     const todoArray = [...todos]
-    todoArray[index].todoText = newTodoText;
-    setTodos(todoArray)
+
+    const todoToChange = todoArray.find(todo => todo.id === id)
+
+    if (todoToChange) {
+      todoToChange.todoText = newTodoText
+      setTodos(todoArray)
+    }
   }
 
-  function deleteOne(index) {
+  function deleteOne(id) {
     const todoArray = [...todos]
-    todoArray.splice(index, 1)
-    setTodos(todoArray)
+
+    const todoToChangeIndex = todoArray.findIndex(todo => todo.id === id)
+
+    if (todoToChangeIndex !== -1) {
+      todoArray.splice(todoToChangeIndex, 1)
+      setTodos(todoArray)
+    }
   }
 
   return (
     <div style={{ margin: 'auto' }} className="container flex-col max-w-screen-sm content-center">
       <h1 className="aufgaben-hero-text text-lg text-6xl text-center">Aufgaben</h1>
-
 
       <div style={{ padding: '0px' }} className="flex mb-3">
         <AddTodoForm onNewTodo={newTodo => {
@@ -64,9 +83,9 @@ function App() {
       </div>
 
       <TodoList todos={todos}
-        onToggleSingleTodoItem={(index) => toggleOne(index)}
-        onEditSingleTodoItem={(index, newTodoText) => editOne(index, newTodoText)}
-        onDeleteSingleTodoItem={(index) => deleteOne(index)} />
+        onToggleSingleTodoItem={(id) => toggleOne(id)}
+        onEditSingleTodoItem={(id, newTodoText) => editOne(id, newTodoText)}
+        onDeleteSingleTodoItem={(id) => deleteOne(id)} />
     </div>
 
   );

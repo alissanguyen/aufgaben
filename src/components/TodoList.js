@@ -3,14 +3,23 @@ import TodoItem from './TodoItem';
 
 
 const TodoList = (props) => {
+
+  const sortedTodos = props.todos.sort((a, b) => {
+    if (a.completed) {
+      return 1
+    } else {
+      return -1
+    }
+  })
+
   return (
     <ul>
       {
-        props.todos.map((todo, index) => {
-          return <TodoItem todo={todo} key={index}
-            onToggle={() => { props.onToggleSingleTodoItem(index) }}
-            onEdit={(newTodoText) => { props.onEditSingleTodoItem(index, newTodoText) }}
-            onDelete={() => { props.onDeleteSingleTodoItem(index) }} />
+        sortedTodos.map((todo) => {
+          return <TodoItem todo={todo} key={todo.id}
+            onToggle={() => { props.onToggleSingleTodoItem(todo.id) }}
+            onEdit={(newTodoText) => { props.onEditSingleTodoItem(todo.id, newTodoText) }}
+            onDelete={() => { props.onDeleteSingleTodoItem(todo.id) }} />
         })
       }
     </ul>

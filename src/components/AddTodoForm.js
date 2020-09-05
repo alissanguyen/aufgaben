@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { INPUT_CLASSNAME } from '../constants';
+import { v4 } from 'uuid';
 
 const AddTodoForm = (props) => {
     const [newTodoText, setNewTodoText] = React.useState("")
@@ -9,7 +10,7 @@ const AddTodoForm = (props) => {
         props.onNewTodo({
             completed: false,
             todoText: newTodoText,
-
+            id: v4()
         })
         /**
          * clear the input  value after you click the add todo button.
