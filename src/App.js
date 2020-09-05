@@ -7,11 +7,14 @@ import useLocalStorageState from './components/useLocalStorageState';
 
 
 function App() {
+
+  const [isChecked, setIsChecked] = React.useState(false);
   const [todos, setTodos] = useLocalStorageState('todos', [], (todos) => {
     return todos.filter((todo) => {
       return typeof todo.id === 'string'
     })
   })
+
 
   function toggleAll() {
     const totalTodos = todos.length;
@@ -67,6 +70,16 @@ function App() {
     }
   }
 
+  const sortedTodos = [...todos].sort((a, b) => {
+    if (a.completed) {
+      return 1
+    } else if (b.completed) {
+      return -1
+    } else {
+      return 0
+    }
+  })
+
   return (
     <div style={{ margin: 'auto' }} className="container flex-col max-w-screen-sm content-center">
       <h1 className="aufgaben-hero-text text-lg text-6xl text-center">Aufgaben</h1>
@@ -82,7 +95,12 @@ function App() {
         }
       </div>
 
-      <TodoList todos={todos}
+      <div>
+        <input type="checkbox" onChange={() => setIsChecked(!isChecked)} checked={isChecked} />
+          Keep completed Todos at the end
+      </div>
+
+      <TodoList todos={isChecked ? sortedTodos : todos}
         onToggleSingleTodoItem={(id) => toggleOne(id)}
         onEditSingleTodoItem={(id, newTodoText) => editOne(id, newTodoText)}
         onDeleteSingleTodoItem={(id) => deleteOne(id)} />
