@@ -4,11 +4,12 @@ import AddTodoForm from './components/AddTodoForm';
 import ToggleAllButton from './components/ToggleAllButton';
 import TodoList from './components/TodoList';
 import useLocalStorageState from './components/useLocalStorageState';
+import { BUTTON_CLASSNAME } from './constants';
 
 
 function App() {
 
-  const [isChecked, setIsChecked] = React.useState(false);
+  const [todosShouldBeSplit, setTodosShouldBeSplit] = React.useState(false);
   const [todos, setTodos] = useLocalStorageState('todos', [], (todos) => {
     return todos.filter((todo) => {
       return typeof todo.id === 'string'
@@ -80,6 +81,10 @@ function App() {
     }
   })
 
+  const onlyUncompletedTodos = sortedTodos.filter(todo => (todo.completed === false));
+  const onlyCompletedTodos = sortedTodos.filter(todo => (todo.completed === true))
+  const numberOfHiddenTodos = sortedTodos.length - onlyUncompletedTodos.length;
+
   return (
     <div style={{ margin: 'auto' }} className="container flex-col max-w-screen-sm content-center">
       <h1 className="aufgaben-hero-text text-lg text-6xl text-center">Aufgaben</h1>
@@ -96,15 +101,43 @@ function App() {
       </div>
 
       <div>
-        <input type="checkbox" onChange={() => setIsChecked(!isChecked)} checked={isChecked} />
-          Keep completed Todos at the end
+
+        <button className={BUTTON_CLASSNAME} onClick={() => { setTodosShouldBeSplit(prev => !prev) }}> {
+          todosShouldBeSplit ? "Combine" : "Separate"
+        }</button>
+
+        <React.Fragment>
+          <TodoList todos={todosShouldBeSplit ? onlyUncompletedTodos : todos}
+            onToggleSingleTodoItem={(id) => toggleOne(id)}
+            onEditSingleTodoItem={(id, newTodoText) => editOne(id, newTodoText)}
+            onDeleteSingleTodoItem={(id) => deleteOne(id)} />
+
+
+
+          {todosShouldBeSplit ? (
+            <React.Fragment>
+              <div style={{
+                display: 'block',
+                height: 30,
+                backGroundColor: 'gray',
+                width: '100%'
+              }}> ... </div>
+
+              <TodoList todos={onlyCompletedTodos}
+                onToggleSingleTodoItem={(id) => toggleOne(id)}
+                onEditSingleTodoItem={(id, newTodoText) => editOne(id, newTodoText)}
+                onDeleteSingleTodoItem={(id) => deleteOne(id)} />
+            </React.Fragment>
+          ) : null
+
+
+          }
+        </React.Fragment>
+
       </div>
 
-      <TodoList todos={isChecked ? sortedTodos : todos}
-        onToggleSingleTodoItem={(id) => toggleOne(id)}
-        onEditSingleTodoItem={(id, newTodoText) => editOne(id, newTodoText)}
-        onDeleteSingleTodoItem={(id) => deleteOne(id)} />
-    </div>
+
+    </div >
 
   );
 }
