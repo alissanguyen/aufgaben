@@ -1,6 +1,4 @@
-
-
-# Aufgaben
+![Aufgaben](https://i.imgur.com/UtcrASw.png)
 
 Aufgaben is a task-management app. 
 
