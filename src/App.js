@@ -5,16 +5,30 @@ import ToggleAllButton from './components/ToggleAllButton';
 import TodoList from './components/TodoList';
 import useLocalStorageState from './components/useLocalStorageState';
 
+// todoId: {
+//   content: todoId,
+//   state: incomplete | completed
+// }
+
 
 function App() {
 
   const [todosShouldBeSplit, setTodosShouldBeSplit] = React.useState(false);
-  const [todos, setTodos] = useLocalStorageState('todos', [], (todos) => {
+  const [todos, setTodos] = useLocalStorageState('todos', {}, (todos) => {
     return todos.filter((todo) => {
       return typeof todo.id === 'string'
     })
   })
 
+  // setTodos((prevTodos) => {
+  //   return {
+  //     ...prevTodos,
+  //     [todoId]: {
+  //       content: "todoId",
+  //       completion: false
+  //     }
+  //   }
+  // })
 
   function toggleAll() {
     const totalTodos = todos.length;
@@ -82,7 +96,6 @@ function App() {
 
   const onlyUncompletedTodos = sortedTodos.filter(todo => (todo.completed === false));
   const onlyCompletedTodos = sortedTodos.filter(todo => (todo.completed === true))
-  const numberOfHiddenTodos = sortedTodos.length - onlyUncompletedTodos.length;
 
   return (
     <div style={{ margin: 'auto' }} className="container flex-col max-w-screen-sm content-center">

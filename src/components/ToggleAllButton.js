@@ -2,7 +2,7 @@ import * as React from 'react';
 
 const ToggleAllButton = (props) => {
   return (
-    <button className={"button" + " ml-3"}
+    <button className="button"
       onClick={props.onToggleAll}>Toggle All</button>
   )
 }
