@@ -3,7 +3,7 @@ import TodoItem from './TodoItem';
 
 
 const TodoList = (props) => {
-
+  console.log(props.todos)
   return (
     <ul>
       {

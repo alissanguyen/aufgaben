@@ -10,7 +10,7 @@ const AddTodoForm = (props) => {
         props.onNewTodo({
             completed: false,
             todoText: newTodoText,
-            id: v4()
+            id: v4(),
         })
         /**
          * clear the input  value after you click the add todo button.
