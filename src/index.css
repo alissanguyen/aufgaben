@@ -13,10 +13,37 @@
 }
 
 .aufgaben-hero-text {
-    font-family: 'Fredericka the Great', cursive;
-    color: #6b5e87
+    font-family: 'Kaushan Script', cursive;
+    color: #515C3F;
 }
 
 .aufgaben-input::placeholder {
-    font-family: 'Indie Flower', cursive;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 300;
+    color :#A6BA86;
+}
+
+.button {
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 0.15em solid #515C3F;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.8em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family: 'Roboto',sans-serif;
+    font-weight: 300;
+    color :#515C3F;
+    text-align:center;
+    transition: all 0.2s;
+}
+.button:hover {
+    color: black;
+    background-color:#98AC78;
+}
+@media all and (max-width:30em){
+ button{
+    display:block;
+    margin:0.4em auto;
+    }
 }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './TodoItem.css'
 import EditSaveAndDeleteForm from './EditSaveAndDeleteForm';
-import { BUTTON_CLASSNAME } from '../constants';
 
 const TodoItem = (props) => {
 
@@ -29,7 +28,7 @@ const TodoItem = (props) => {
               <div className="flex" style={{
                 alignItems: 'baseline'
               }}>
-                <button className={`${BUTTON_CLASSNAME} toggle-completed-button`} onClick={props.onToggle}>
+                <button className="button" onClick={props.onToggle}>
                   {
                     props.todo.completed ? <span role="img" aria-label="Completed">✅</span> : <span role="img" aria-label="Not completed">🙅‍♀️</span>
                   }
@@ -43,15 +42,15 @@ const TodoItem = (props) => {
                 onMouseLeave={() => setIsHovering(false)}>
                 {isHovering ? (
                   <React.Fragment>
-                    <button className={BUTTON_CLASSNAME + " mr-2"} onClick={() => { setIsEditing(true) }}>
+                    <button className={"button" + " mr-2"} onClick={() => { setIsEditing(true) }}>
                       <span role="img" aria-label="Edit">🖊️</span>
                     </button>
-                    <button className={BUTTON_CLASSNAME} onClick={() => { props.onDelete() }}>
+                    <button className="button" onClick={() => { props.onDelete() }}>
                       <span role="img" aria-label="Delete">❌</span>
                     </button>
                   </React.Fragment>
                 ) : (
-                    <button className={BUTTON_CLASSNAME + " ml-3"} onMouseEnter={() => setIsHovering(true)}>...</button>
+                    <button className={"button" + " ml-3"} onMouseEnter={() => setIsHovering(true)}>...</button>
                   )}
               </div>
             </React.Fragment>

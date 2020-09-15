@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BUTTON_CLASSNAME, INPUT_CLASSNAME } from '../constants';
+import { INPUT_CLASSNAME } from '../constants';
 
 const EditSaveAndDeleteForm = (props) => {
   const [newTodoText, setNewTodoText] = React.useState(props.todo.todoText)
@@ -15,7 +15,7 @@ const EditSaveAndDeleteForm = (props) => {
         <input className={INPUT_CLASSNAME + " mr-3"} value={newTodoText} onChange={event => {
           setNewTodoText(event.target.value)
         }} />
-        <button type="submit" className={BUTTON_CLASSNAME} >Save</button>
+        <button type="submit" className="button" >Save</button>
       </form>
     </React.Fragment>
   )

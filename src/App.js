@@ -4,7 +4,6 @@ import AddTodoForm from './components/AddTodoForm';
 import ToggleAllButton from './components/ToggleAllButton';
 import TodoList from './components/TodoList';
 import useLocalStorageState from './components/useLocalStorageState';
-import { BUTTON_CLASSNAME } from './constants';
 
 
 function App() {
@@ -102,7 +101,7 @@ function App() {
 
       <div>
 
-        <button className={BUTTON_CLASSNAME} onClick={() => { setTodosShouldBeSplit(prev => !prev) }}> {
+        <button className="button" onClick={() => { setTodosShouldBeSplit(prev => !prev) }}> {
           todosShouldBeSplit ? "Combine" : "Separate"
         }</button>
 
