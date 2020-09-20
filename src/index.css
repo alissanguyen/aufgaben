@@ -1,49 +1,55 @@
 .aufgaben-button {
-    background-color: #8675a9;
-    font-family: 'Indie Flower', cursive;
-    letter-spacing: 2px;
+  background-color: #8675a9;
+  font-family: "Indie Flower", cursive;
+  letter-spacing: 2px;
 }
 
 .aufgaben-button:hover {
-    background-color: #a87496
+  background-color: #a87496;
 }
 
 .toggle-completed-button {
-    margin-right: 0.75rem;
+  margin-right: 0.75rem;
 }
 
 .aufgaben-hero-text {
-    font-family: 'Kaushan Script', cursive;
-    color: #515C3F;
+  font-family: "Kaushan Script", cursive;
+  color: #515c3f;
 }
 
 .aufgaben-input::placeholder {
-    font-family: 'Roboto',sans-serif;
-    font-weight: 300;
-    color :#A6BA86;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #a6ba86;
+}
+
+.button:focus {
+  outline: none;
 }
 
 .button {
-    display: inline-block;
-    padding: 0.35em 1.2em;
-    border: 0.15em solid #515C3F;
-    margin:0 0.3em 0.3em 0;
-    border-radius:0.8em;
-    box-sizing: border-box;
-    text-decoration:none;
-    font-family: 'Roboto',sans-serif;
-    font-weight: 300;
-    color :#515C3F;
-    text-align:center;
-    transition: all 0.2s;
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.15em solid #515c3f;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.8em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #515c3f;
+  text-align: center;
+  transition: all 0.2s;
 }
+
 .button:hover {
-    color: black;
-    background-color:#98AC78;
+  color: black;
+  background-color: #98ac78;
 }
-@media all and (max-width:30em){
- button{
-    display:block;
-    margin:0.4em auto;
-    }
+
+@media all and (max-width: 30em) {
+   button {
+    display: block;
+    margin: 0.4em auto;
+  }
 }

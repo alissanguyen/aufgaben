@@ -10,23 +10,6 @@ import useLocalStorageState from "./hooks/useLocalStorageState";
 //   state: incomplete | completed
 // }\
 
-const validateTodosFromLocalStorage = (todos) => {
-  /**
-   * we want to return an object. If anything fails or doesn't pass validation, just return an empty object
-   *
-   * 1. We want to validate that it's not null or undefined
-   * 2. We want to validate that it is an object that is not an array
-   * 3. We want to keep only todos that have all the properties we need.
-   *
-   *
-   * todoId {
-   *  content: string;
-   *  completed: boolean;
-   *  dueDate: Date;
-   * }
-   */
-};
-
 // type AufgabenTodo = Record<String, {content: String, isCompleted: boolean, dueDate: Date }>
 
 /**
