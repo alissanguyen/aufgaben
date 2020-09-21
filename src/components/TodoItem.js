@@ -63,6 +63,7 @@ const TodoItem = (props) => {
             style={{
               justifyContent: "flex-end",
             }}
+            onBlur={() => setIsHovering(false)}
             onMouseLeave={() => setIsHovering(false)}
           >
             {isHovering ? (
@@ -91,6 +92,7 @@ const TodoItem = (props) => {
             ) : (
               <button
                 className="button"
+                onFocus={() => setIsHovering(true)}
                 onMouseEnter={() => setIsHovering(true)}
               >
                 ...

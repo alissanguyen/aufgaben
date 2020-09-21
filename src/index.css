@@ -1,12 +1,11 @@
-.aufgaben-button {
-  background-color: #8675a9;
-  font-family: "Indie Flower", cursive;
-  letter-spacing: 2px;
+input:focus {
+  box-shadow: inset 2px 0px 17px -2px #daeac0;
 }
 
-.aufgaben-button:hover {
-  background-color: #a87496;
+.button:focus {
+  background-color: #98ac78;
 }
+
 
 .toggle-completed-button {
   margin-right: 0.75rem;

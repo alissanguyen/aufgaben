@@ -4,6 +4,7 @@ import AddTodoForm from "./components/AddTodoForm";
 import ToggleAllButton from "./components/ToggleAllButton";
 import TodoList from "./components/TodoList";
 import useLocalStorageState from "./hooks/useLocalStorageState";
+import { pluralize } from "./utils/pluralize";
 
 // todoId: {
 //   content: todoId,
@@ -17,7 +18,10 @@ import useLocalStorageState from "./hooks/useLocalStorageState";
  */
 
 function App() {
-  const [todosShouldBeSplit, setTodosShouldBeSplit] = React.useState(false);
+  const [
+    completedTodosShouldBeHidden,
+    setCompletedTodosShouldBeHidden,
+  ] = React.useState(false);
   const [todos, setTodos] = useLocalStorageState("todos", {});
 
   function toggleAll() {
@@ -116,29 +120,33 @@ function App() {
             });
           }}
         />
-        {sortedTodos.length > 0 ? <ToggleAllButton onToggleAll={toggleAll} /> : null}
+        {sortedTodos.length > 0 ? (
+          <ToggleAllButton onToggleAll={toggleAll} />
+        ) : null}
       </div>
 
       <div>
         <button
           className="button"
           onClick={() => {
-            setTodosShouldBeSplit((prev) => !prev);
+            setCompletedTodosShouldBeHidden((prev) => !prev);
           }}
         >
           {" "}
-          {todosShouldBeSplit ? "Combine" : "Separate"}
+          {completedTodosShouldBeHidden ? "Show Completed" : "Hide Completed"}
         </button>
 
         <React.Fragment>
           <TodoList
-            todos={todosShouldBeSplit ? onlyUncompletedTodos : sortedTodos}
+            todos={
+              completedTodosShouldBeHidden ? onlyUncompletedTodos : sortedTodos
+            }
             onToggleSingleTodoItem={(id) => toggleOne(id)}
             onEditSingleTodoItem={(id, newTodoText) => editOne(id, newTodoText)}
             onDeleteSingleTodoItem={(id) => deleteOne(id)}
           />
 
-          {todosShouldBeSplit ? (
+          {completedTodosShouldBeHidden ? (
             <React.Fragment>
               <div
                 style={{
@@ -148,24 +156,25 @@ function App() {
                   width: "100%",
                 }}
               >
-                {" "}
-                ...{" "}
+                {generateHiddenTodosText(
+                  onlyCompletedTodos.length,
+                  onlyCompletedTodos.length === sortedTodos.length
+                )}
               </div>
-
-              <TodoList
-                todos={onlyCompletedTodos}
-                onToggleSingleTodoItem={(id) => toggleOne(id)}
-                onEditSingleTodoItem={(id, newTodoText) =>
-                  editOne(id, newTodoText)
-                }
-                onDeleteSingleTodoItem={(id) => deleteOne(id)}
-              />
             </React.Fragment>
           ) : null}
         </React.Fragment>
       </div>
     </div>
   );
+}
+
+function generateHiddenTodosText(numItems, allCompleted) {
+  if (allCompleted && numItems > 1) {
+    return `All ${numItems} ${pluralize("item", "items", numItems)} completed.`;
+  } else {
+    return `${numItems} completed ${pluralize("item", "items", numItems)}`;
+  }
 }
 
 export default App;
