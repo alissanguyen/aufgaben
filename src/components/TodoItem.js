@@ -1,6 +1,7 @@
 import * as React from "react";
 import "./TodoItem.css";
 import EditSaveAndDeleteForm from "./EditSaveAndDeleteForm";
+import completeIcon from "./success.png";
 
 const TodoItem = (props) => {
   const [isHovering, setIsHovering] = React.useState(false);
@@ -35,11 +36,10 @@ const TodoItem = (props) => {
               alignItems: "baseline",
             }}
           >
-            <button className="button" onClick={props.onToggle}>
+            <button className="icon-button" onClick={props.onToggle}>
               {props.todo.completed ? (
-                <span role="img" aria-label="Completed">
-                  ✅
-                </span>
+                <img src={completeIcon} aria-label="Completed" alt="">
+                </img>
               ) : (
                 <span role="img" aria-label="Not completed">
                   🙅‍♀️

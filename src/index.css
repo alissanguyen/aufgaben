@@ -6,6 +6,11 @@ input:focus {
   background-color: #98ac78;
 }
 
+.icon-button {
+  width: 25px;
+  height: 25px;
+  margin: 10px;
+}
 
 .toggle-completed-button {
   margin-right: 0.75rem;
