@@ -1,7 +1,10 @@
 import * as React from "react";
 import "./TodoItem.css";
 import EditSaveAndDeleteForm from "./EditSaveAndDeleteForm";
-import completeIcon from "./success.png";
+import completeIcon from "./complete.png";
+import incompleteIcon from "./incomplete.png";
+import deleteIcon from "./delete.png";
+import editIcon from "./edit.png";
 
 const TodoItem = (props) => {
   const [isHovering, setIsHovering] = React.useState(false);
@@ -41,9 +44,8 @@ const TodoItem = (props) => {
                 <img src={completeIcon} aria-label="Completed" alt="">
                 </img>
               ) : (
-                <span role="img" aria-label="Not completed">
-                  🙅‍♀️
-                </span>
+                <img src={incompleteIcon} aria-label="Incompleted" alt="">
+                </img>
               )}
             </button>
             <p
@@ -69,24 +71,22 @@ const TodoItem = (props) => {
             {isHovering ? (
               <React.Fragment>
                 <button
-                  className="button"
+                  className="icon-button-hover"
                   onClick={() => {
                     setIsEditing(true);
                   }}
                 >
-                  <span role="img" aria-label="Edit">
-                    Edit
-                  </span>
+                  <img src={editIcon} aria-label="Edit" alt="">
+                </img>
                 </button>
                 <button
-                  className="button"
+                  className="icon-button-hover"
                   onClick={() => {
                     props.onDelete();
                   }}
                 >
-                  <span role="img" aria-label="Delete">
-                    Delete
-                  </span>
+                  <img src={deleteIcon} aria-label="Delete" alt="">
+                </img>
                 </button>
               </React.Fragment>
             ) : (

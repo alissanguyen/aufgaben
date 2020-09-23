@@ -7,8 +7,14 @@ input:focus {
 }
 
 .icon-button {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+}
+
+.icon-button-hover {
+  width: 35px;
+  height: 35px;
   margin: 10px;
 }
 
