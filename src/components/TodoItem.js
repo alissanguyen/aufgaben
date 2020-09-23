@@ -1,13 +1,13 @@
 import * as React from "react";
-import "./TodoItem.css";
+import "../styling/TodoItem.css";
 import EditSaveAndDeleteForm from "./EditSaveAndDeleteForm";
-import completeIcon from "./complete.png";
-import incompleteIcon from "./incomplete.png";
-import deleteIcon from "./delete.png";
-import editIcon from "./edit.png";
+import completeIcon from "../icons/complete.png";
+import incompleteIcon from "../icons/incomplete.png";
+import deleteIcon from "../icons/delete.png";
+import editIcon from "../icons/edit.png";
 
 const TodoItem = (props) => {
-  const [isHovering, setIsHovering] = React.useState(false);
+  // const [isHovering, setIsHovering] = React.useState(false);
 
   const [isEditing, setIsEditing] = React.useState(false);
 
@@ -16,7 +16,7 @@ const TodoItem = (props) => {
       className="grid mt-3"
       style={{
         gridTemplateColumns: "1fr auto",
-        alignItems: "baseline",
+        alignItems: "center",
       }}
     >
       {isEditing ? (
@@ -36,16 +36,14 @@ const TodoItem = (props) => {
           <div
             className="flex"
             style={{
-              alignItems: "baseline",
+              alignItems: "center",
             }}
           >
             <button className="icon-button" onClick={props.onToggle}>
               {props.todo.completed ? (
-                <img src={completeIcon} aria-label="Completed" alt="">
-                </img>
+                <img src={completeIcon} aria-label="Completed" alt=""></img>
               ) : (
-                <img src={incompleteIcon} aria-label="Incompleted" alt="">
-                </img>
+                <img src={incompleteIcon} aria-label="Incompleted" alt=""></img>
               )}
             </button>
             <p
@@ -64,40 +62,25 @@ const TodoItem = (props) => {
             className="flex"
             style={{
               justifyContent: "flex-end",
-            }}
-            onBlur={() => setIsHovering(false)}
-            onMouseLeave={() => setIsHovering(false)}
-          >
-            {isHovering ? (
+            }}>
               <React.Fragment>
-                <button
-                  className="icon-button-hover"
-                  onClick={() => {
-                    setIsEditing(true);
-                  }}
-                >
-                  <img src={editIcon} aria-label="Edit" alt="">
-                </img>
-                </button>
-                <button
-                  className="icon-button-hover"
-                  onClick={() => {
-                    props.onDelete();
-                  }}
-                >
-                  <img src={deleteIcon} aria-label="Delete" alt="">
-                </img>
-                </button>
+                  <button
+                    className="icon-button"
+                    onClick={() => {
+                      setIsEditing(true);
+                    }}
+                  >
+                    <img src={editIcon} aria-label="Edit" alt=""></img>
+                  </button>
+                  <button
+                    className="icon-button"
+                    onClick={() => {
+                      props.onDelete();
+                    }}
+                  >
+                    <img src={deleteIcon} aria-label="Delete" alt=""></img>
+                  </button>
               </React.Fragment>
-            ) : (
-              <button
-                className="button"
-                onFocus={() => setIsHovering(true)}
-                onMouseEnter={() => setIsHovering(true)}
-              >
-                ...
-              </button>
-            )}
           </div>
         </React.Fragment>
       )}
