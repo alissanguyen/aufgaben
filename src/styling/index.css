@@ -57,3 +57,9 @@ input:focus {
     margin: 0.4em auto;
   }
 }
+
+.website-content {
+  display:flex; 
+  flex-direction:row;
+}
+

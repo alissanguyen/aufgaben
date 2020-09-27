@@ -5,6 +5,7 @@ import ToggleAllButton from "./components/ToggleAllButton";
 import TodoList from "./components/TodoList";
 import useLocalStorageState from "./hooks/useLocalStorageState";
 import { pluralize } from "./utils/pluralize";
+import Calendar from "react-calendar";
 
 // todoId: {
 //   content: todoId,
@@ -108,62 +109,75 @@ function App() {
       <h1 className="aufgaben-hero-text text-lg text-6xl text-center">
         Aufgaben
       </h1>
+      <div className="website-content">
+        <div className="calendar">
+          <Calendar />
+        </div>
 
-      <div style={{ padding: "0px" }} className="flex mb-3">
-        <AddTodoForm
-          onNewTodo={(newTodo) => {
-            setTodos((prev) => {
-              return {
-                ...prev,
-                [newTodo.id]: newTodo,
-              };
-            });
-          }}
-        />
-        {sortedTodos.length > 0 ? (
-          <ToggleAllButton onToggleAll={toggleAll} />
-        ) : null}
-      </div>
+        <div className="todo-form">
+          <div style={{ padding: "0px" }} className="flex mb-3">
+            <AddTodoForm
+              onNewTodo={(newTodo) => {
+                setTodos((prev) => {
+                  return {
+                    ...prev,
+                    [newTodo.id]: newTodo,
+                  };
+                });
+              }}
+            />
+            {sortedTodos.length > 0 ? (
+              <ToggleAllButton onToggleAll={toggleAll} />
+            ) : null}
+          </div>
 
-      <div>
-        <button
-          className="button"
-          onClick={() => {
-            setCompletedTodosShouldBeHidden((prev) => !prev);
-          }}
-        >
-          {" "}
-          {completedTodosShouldBeHidden ? "Show Completed" : "Hide Completed"}
-        </button>
+          <div>
+            <button
+              className="button"
+              onClick={() => {
+                setCompletedTodosShouldBeHidden((prev) => !prev);
+              }}
+            >
+              {" "}
+              {completedTodosShouldBeHidden
+                ? "Show Completed"
+                : "Hide Completed"}
+            </button>
 
-        <React.Fragment>
-          <TodoList
-            todos={
-              completedTodosShouldBeHidden ? onlyUncompletedTodos : sortedTodos
-            }
-            onToggleSingleTodoItem={(id) => toggleOne(id)}
-            onEditSingleTodoItem={(id, newTodoText) => editOne(id, newTodoText)}
-            onDeleteSingleTodoItem={(id) => deleteOne(id)}
-          />
-
-          {completedTodosShouldBeHidden ? (
             <React.Fragment>
-              <div
-                style={{
-                  display: "block",
-                  height: 30,
-                  backGroundColor: "gray",
-                  width: "100%",
-                }}
-              >
-                {generateHiddenTodosText(
-                  onlyCompletedTodos.length,
-                  onlyCompletedTodos.length === sortedTodos.length
-                )}
-              </div>
+              <TodoList
+                todos={
+                  completedTodosShouldBeHidden
+                    ? onlyUncompletedTodos
+                    : sortedTodos
+                }
+                onToggleSingleTodoItem={(id) => toggleOne(id)}
+                onEditSingleTodoItem={(id, newTodoText) =>
+                  editOne(id, newTodoText)
+                }
+                onDeleteSingleTodoItem={(id) => deleteOne(id)}
+              />
+
+              {completedTodosShouldBeHidden ? (
+                <React.Fragment>
+                  <div
+                    style={{
+                      display: "block",
+                      height: 30,
+                      backGroundColor: "gray",
+                      width: "100%",
+                    }}
+                  >
+                    {generateHiddenTodosText(
+                      onlyCompletedTodos.length,
+                      onlyCompletedTodos.length === sortedTodos.length
+                    )}
+                  </div>
+                </React.Fragment>
+              ) : null}
             </React.Fragment>
-          ) : null}
-        </React.Fragment>
+          </div>
+        </div>
       </div>
     </div>
   );
