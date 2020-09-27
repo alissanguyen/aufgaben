@@ -61,5 +61,37 @@ input:focus {
 .website-content {
   display:flex; 
   flex-direction:row;
+  padding: 30px;
 }
 
+.calendar {
+  margin-right: 30px;
+}
+
+.todo-form {
+
+}
+
+
+.react-calendar {
+  display: block;
+  background: #E5F2D0;
+  border: solid 3px #ADC08E;
+  border-radius: 2%;
+  margin: 20px auto;
+  text-align: center;
+  
+}
+
+.react-calendar__month-view__weekdays {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #313827;
+}
+
+.react-calendar__navigation button {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #313827;
+  font-size: 1em;
+}
