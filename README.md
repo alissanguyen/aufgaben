@@ -1,4 +1,4 @@
-![Aufgaben](https://i.imgur.com/UtcrASw.png)
+![Aufgaben](https://i.imgur.com/XCIDzF4.png)
 
 Aufgaben is a task-management app. Users can sync their todo list accross devices.
 
