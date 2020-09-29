@@ -59,8 +59,8 @@ input:focus {
 }
 
 .website-content {
-  display:flex; 
-  flex-direction:row;
+  display: flex;
+  flex-direction: row;
   padding: 30px;
 }
 
@@ -69,29 +69,72 @@ input:focus {
 }
 
 .todo-form {
-
 }
 
-
 .react-calendar {
+  font-family: "Roboto", sans-serif;
   display: block;
-  background: #E5F2D0;
-  border: solid 3px #ADC08E;
+  background: #687652;
+  border: solid 3px #313827;
   border-radius: 2%;
   margin: 20px auto;
   text-align: center;
-  
 }
 
 .react-calendar__month-view__weekdays {
   font-family: "Roboto", sans-serif;
   font-weight: 300;
-  color: #313827;
+  color: white;
 }
 
 .react-calendar__navigation button {
   font-family: "Roboto", sans-serif;
   font-weight: 300;
-  color: #313827;
-  font-size: 1em;
+  color: white;
+  font-size: 1.3em;
 }
+
+.react_calendar__navigation {
+  width: 600px;
+}
+
+.react-calendar__navigation__arrow {
+  display: none;
+}
+
+.react-calendar__navigation__label {
+  font-size: 32px;
+}
+
+.react-calendar__tile {
+  height: 40px;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  font-size: 16px;
+  color: white;
+}
+
+.react-calendar__tile--active {
+  background: #99ab7b;
+  color: white;
+}
+
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #adc08e;
+  outline: #99ab7b;
+}
+
+.react-calendar__tile,
+.react-calendar__month-view__weekdays {
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: 200;
+}
+
+.react-calendar__month-view__days__day {
+  font-size: 16px;
+  color: white;
+}
+
